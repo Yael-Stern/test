@@ -10,7 +10,7 @@ public static class FineCalculator
         flagged = false;
 
         if (row.Length != 6 ||
-            (row[2] != "student" && row[2] != "teacher" && row[2] != "guest")) return false;
+            (row[2] != "student" && row[2] != "teacher" && row[2] != "guest" && row[2] != "alumna")) return false;
         name = row[1];
         for (int i = 0; i < row.Length; i++)
         {
@@ -28,12 +28,17 @@ public static class FineCalculator
         if (row[2] == "student")
         {
             int chargeableDays = borrowedDays > 15 ? borrowedDays - 14 : 0;
-            fine = Math.Min(30, chargeableDays);
+            fine = Math.Min(40, chargeableDays);
         }
         else if (row[2] == "guest")
         {
             int overdueDays = Math.Max(0, borrowedDays - 7);
             fine = (overdueDays * 5 + 1) / 2;
+        }
+        else if (row[2] == "alumna")
+        {
+            int overdueDays = Math.Max(0, borrowedDays - 10);
+            fine = Math.Min(25, (overdueDays * 3 + 1) / 2);
         }
         else
         {
