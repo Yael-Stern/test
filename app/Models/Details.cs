@@ -8,6 +8,7 @@ namespace App.models
     {
         int reader_id { get;  }
         string name { get; set; }
+        string type { get; set; }
 
     }
 }
