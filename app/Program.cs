@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 // The exam program. It gets the path of an input file, and prints the report.
@@ -21,6 +22,8 @@ class Program
 
         Dictionary<int, string> names = new Dictionary<int, string>();
         Dictionary<int, int> fines = new Dictionary<int, int>();
+        Dictionary<string, int> bookCounts = new Dictionary<string, int>();
+        Dictionary<int, int> positiveFineLoans = new Dictionary<int, int>();
         List<string> flagged = new List<string>();
         HashSet<int> flaggedIds = new HashSet<int>();
         List<string> errors = new List<string>();
@@ -37,6 +40,15 @@ class Program
             if (!names.ContainsKey(readerId)) names[readerId] = name;
             if (fines.ContainsKey(readerId)) fines[readerId] += fine;
             else fines[readerId] = fine;
+
+            if (bookCounts.ContainsKey(row[3])) bookCounts[row[3]]++;
+            else bookCounts[row[3]] = 1;
+
+            if (fine > 0)
+            {
+                if (positiveFineLoans.ContainsKey(readerId)) positiveFineLoans[readerId]++;
+                else positiveFineLoans[readerId] = 1;
+            }
 
             if (isFlagged && flaggedIds.Add(readerId))
             {
@@ -66,6 +78,24 @@ class Program
         foreach (int fine in fines.Values) total += fine;
         Console.WriteLine("TOTAL");
         Console.WriteLine(total);
+
+        Console.WriteLine("TOP_BOOKS");
+        foreach (KeyValuePair<string, int> book in bookCounts
+            .OrderByDescending(entry => entry.Value)
+            .ThenBy(entry => entry.Key, StringComparer.CurrentCulture)
+            .Take(3))
+        {
+            Console.WriteLine(book.Key + ", " + book.Value);
+        }
+
+        Console.WriteLine("AT_RISK");
+        foreach (KeyValuePair<int, int> reader in positiveFineLoans)
+        {
+            if (reader.Value > 2)
+            {
+                Console.WriteLine(reader.Key + ", " + names[reader.Key]);
+            }
+        }
     }
 
     public static int ReadReportDay(string[] lines)
