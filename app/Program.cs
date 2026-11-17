@@ -20,14 +20,13 @@ class Program
 
         // Write your code here. 'reportDay' and 'rows' are ready.
     }
-
-    static int ReadReportDay(string[] lines)
+    public static int ReadReportDay(string[] lines)
     {
         return int.Parse(lines[0].Split(':')[1].Trim());
     }
 
     // The lines after the two first ones, each split into its fields
-    static List<string[]> ReadRows(string[] lines)
+    public static List<string[]> ReadRows(string[] lines)
     {
         List<string[]> rows = new List<string[]>();
         for (int i = 2; i < lines.Length; i++)
@@ -41,7 +40,7 @@ class Program
     }
 
     // Without a path, look for data/sample.txt next to the project, also when started from Visual Studio
-    static string FindSample()
+    public static string FindSample()
     {
         DirectoryInfo dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir != null)
@@ -53,3 +52,5 @@ class Program
         return Path.Combine("data", "sample.txt");
     }
 }
+
+
