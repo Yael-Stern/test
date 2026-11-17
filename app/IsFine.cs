@@ -25,12 +25,12 @@ namespace App
             int total = 0;
 
 
-            //for(int i = 0; i < lines.Length; i++)
-            //{
-            //    if (i[5] - i[4])
-            //}
-                
-           
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines.Length<6)return false
+            }
+
+
         }
 
     }
